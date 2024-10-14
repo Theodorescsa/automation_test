@@ -48,10 +48,12 @@ def AutoTest(tasks: list):
     
     browser.get(link)
     __login()
-    time.sleep(5)
+    time.sleep(3)
     __findToJobCard()
-    __finTableJob(browser,tasks["list_tabjobs"])
-    time.sleep(2)
-    # __finJobCard(browser,tasks["list_jobcards"],tasks["list_staffs"],tasks["list_tasks"])
+    # __finTableJob(browser,tasks["list_tabjobs"])
+    time.sleep(1.5)
+    __finJobCard(browser,tasks["list_jobcards"],tasks["list_staffs"],tasks["list_tasks"])
+    time.sleep(sleeping_time)
+    
     
     

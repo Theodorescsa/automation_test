@@ -53,7 +53,14 @@ def create_cardjob_object(sheet,jobcard):
         weight = sheet.cell(row,6).value
         tab_job = sheet.cell(row,7).value
         category_job = sheet.cell(row,8).value
-        new_card_job = CardJob(card_name = card_name, start_date=start_date,end_date = end_date, card_status=card_status,weight=weight,tab_job=tab_job,category_job=category_job)
+        priority = sheet.cell(row,9).value
+        job_type = sheet.cell(row,10).value
+        funding = sheet.cell(row,11).value
+        money_type = sheet.cell(row,12).value
+        cycle = sheet.cell(row,13).value
+        workflow = sheet.cell(row,14).value
+        new_card_job = CardJob(card_name = card_name, start_date=start_date,end_date = end_date, card_status=card_status,weight=weight,tab_job=tab_job,category_job=category_job,priority=priority,job_type=job_type,funding=funding,money_type=money_type,cycle=cycle,workflow=workflow)
+        
         jobcard.list_jobcards.append(new_card_job)
     return jobcard.list_jobcards
 
@@ -61,13 +68,23 @@ def create_staff_object(sheet, jobcard):
     max_row = sheet.max_row
     for row in range(3, max_row + 1):
         card_job = sheet.cell(row, 2).value
-        branch_agency = sheet.cell(row,3).value
-        department_group = sheet.cell(row,4).value
-        staff_name = sheet.cell(row,5).value
-
-        new_staff = Staff(card_job, branch_agency, department_group, staff_name)
-        jobcard.list_staffs.append(new_staff)
+        branch_agency = sheet.cell(row, 3).value
+        department_group = sheet.cell(row, 4).value
+        staff_name = sheet.cell(row, 5).value
+        
+        try:
+            list_staffs = staff_name.split(",")
+            for index in range(len(list_staffs)):
+                staff_name = list_staffs[index].strip()
+                new_staff = Staff(card_job, branch_agency, department_group, staff_name)
+                jobcard.list_staffs.append(new_staff)
+        except:
+            print("Chi co mot nhan vien")
+            new_staff = Staff(card_job, branch_agency, department_group, staff_name)
+            jobcard.list_staffs.append(new_staff)
+            
     return jobcard.list_staffs
+
 
 def create_task_object(sheet, jobcard):
     max_row = sheet.max_row
